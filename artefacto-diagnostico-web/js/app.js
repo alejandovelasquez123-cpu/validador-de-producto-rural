@@ -10,6 +10,30 @@ const campos = {
   responsable: document.getElementById('responsable'),
 };
 
+const camposOrden = ['producto', 'cantidad', 'unidad', 'fecha', 'responsable'];
+
+function limpiarEstadoCampos() {
+  camposOrden.forEach((nombre) => {
+    campos[nombre].removeAttribute('aria-invalid');
+  });
+}
+
+function marcarCamposInvalidos(nombres) {
+  limpiarEstadoCampos();
+
+  nombres.forEach((nombre) => {
+    campos[nombre].setAttribute('aria-invalid', 'true');
+  });
+
+  const primerCampo = nombres
+    .map((nombre) => campos[nombre])
+    .find((campo) => campo);
+
+  if (primerCampo) {
+    primerCampo.focus();
+  }
+}
+
 function limpiarMensajes() {
   resultado.className = 'resultado';
   resultado.innerHTML = '';
@@ -68,6 +92,7 @@ function formatoFecha(valor) {
 form.addEventListener('submit', (event) => {
   event.preventDefault();
   limpiarMensajes();
+  limpiarEstadoCampos();
 
   const producto = capitalizarTexto(campos.producto.value);
   const cantidadTexto = campos.cantidad.value.trim().replace(',', '.');
@@ -115,6 +140,17 @@ form.addEventListener('submit', (event) => {
   }
 
   if (errores.length > 0) {
+    marcarCamposInvalidos(
+      errores.map((mensaje) => {
+        if (mensaje.includes('producto')) return 'producto';
+        if (mensaje.includes('cantidad')) return 'cantidad';
+        if (mensaje.includes('unidad')) return 'unidad';
+        if (mensaje.includes('día')) return 'fecha';
+        if (mensaje.includes('responsable')) return 'responsable';
+        return null;
+      }).filter(Boolean)
+    );
+
     mostrarMensaje('error', 'Hay errores que debes corregir', 'El registro no se puede guardar todavía.', errores);
     return;
   }
@@ -142,6 +178,7 @@ form.addEventListener('submit', (event) => {
 
 form.addEventListener('reset', () => {
   limpiarMensajes();
+  limpiarEstadoCampos();
   setTimeout(() => {
     resultado.className = 'resultado empty';
     resultado.innerHTML = '<p>Completa los datos y presiona <strong>Validar registro</strong>.</p>';
