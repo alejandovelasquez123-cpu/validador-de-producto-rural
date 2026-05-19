@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Validador de Producción Rural</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <main class="app-shell">
+    <section class="hero">
+      <h1>Validador de Producción Rural</h1>
+      <p class="lead">
+        Mini-solución web para revisar registros, detectar errores comunes y mostrar mensajes de diagnóstico antes de guardar la información.
+      </p>
+    </section>
+
+    <section class="card">
+      <form id="form-produccion" novalidate>
+        <div class="grid">
+          <label>
+            <span>Producto</span>
+            <input id="producto" name="producto" type="text" placeholder="Ej. Leche" autocomplete="off" />
+          </label>
+
+          <label>
+            <span>Cantidad</span>
+            <input id="cantidad" name="cantidad" type="text" placeholder="Ej. 45.5" inputmode="decimal" autocomplete="off" />
+          </label>
+
+          <label>
+            <span>Unidad de medida</span>
+            <select id="unidad" name="unidad">
+              <option value="">Selecciona una unidad</option>
+              <option value="litros">Litros</option>
+              <option value="kilos">Kilos</option>
+              <option value="unidades">Unidades</option>
+              <option value="arrobas">Arrobas</option>
+              <option value="bultos">Bultos</option>
+            </select>
+          </label>
+
+          <label>
+            <span>Día de registro</span>
+            <input id="fecha" name="fecha" type="date" />
+          </label>
+
+          <label class="full-width">
+            <span>Responsable</span>
+            <input id="responsable" name="responsable" type="text" placeholder="Ej. Alejandro Velásquez" autocomplete="name" />
+          </label>
+        </div>
+
+        <div class="actions">
+          <button type="submit">Validar registro</button>
+          <button type="reset" class="secondary">Limpiar</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="card diagnostics" aria-live="polite">
+      <div class="section-heading">
+        <h2>Diagnóstico</h2>
+        <p>El resultado aparecerá aquí después de validar el formulario.</p>
+      </div>
+
+      <div id="resultado" class="resultado empty">
+        <p>Completa los datos y presiona <strong>Validar registro</strong>.</p>
+      </div>
+
+      <div id="resumen" class="resumen" hidden></div>
+    </section>
+  </main>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
